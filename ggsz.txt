@@ -1,6 +1,6 @@
 
 local function r()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/turkeyjhonny/ADOPTMESCRIPT/refs/heads/main/Ggszx.txt'))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/turkeyjhonny/Adoptmevalue/refs/heads/main/ggygv.lua.txt'))()
 end
 local function farm()
     loadstring(game:HttpGet('https://pastebin.com/raw/feWJgdmL'))()
